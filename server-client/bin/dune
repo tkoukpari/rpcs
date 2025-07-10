@@ -1,3 +1,5 @@
 (executable
  (name main)
- (libraries server_client))
+ (libraries server_client)
+ (preprocess
+  (pps ppx_jane)))

@@ -1,3 +1,5 @@
 (library
  (name server_client)
- (libraries async core))
+ (libraries core async)
+ (preprocess
+  (pps ppx_jane)))
