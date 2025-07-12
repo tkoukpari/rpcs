@@ -9,4 +9,4 @@ module Response : sig
   type t = unit [@@deriving bin_io]
 end
 
-val rpc : (Query.t, Response.t) Async.Rpc.Rpc.t
+val rpc : (Query.t, Response.t) Rpc.Rpc.t
