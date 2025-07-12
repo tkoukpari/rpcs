@@ -1,4 +1,4 @@
 open! Core
 open! Async
 
-val command : Command.t
+val start : print_state_every:Time_float.Span.t -> unit Deferred.t

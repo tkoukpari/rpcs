@@ -26,22 +26,16 @@ let serve state ~port =
       ~where_to_listen:(Tcp.Where_to_listen.of_port port)
       ()
   in
-  printf "RPCs served on port %d\n" port;
+  print_s [%message "RPC served on port" (port : int)];
   return ()
 
 let print_state_forever state ~every =
   Clock.every every (fun () -> print_s [%message (state : State.t)]);
   Deferred.never ()
 
-let param = Command.Param.(anon ("print-state-every" %: float))
-
-let command =
-  Command.async ~summary:""
-    (let%map.Command print_state_every = param in
-     fun () ->
-       let state : State.t =
-         { magic_number = Random.State.int Random.State.default 42 }
-       in
-       let print_state_every = Time_float.Span.of_sec print_state_every in
-       let%bind () = serve state ~port:8080 in
-       print_state_forever state ~every:print_state_every)
+let start ~print_state_every =
+  let state : State.t =
+    { magic_number = Random.State.int Random.State.default 42 }
+  in
+  let%bind () = serve state ~port:8080 in
+  print_state_forever state ~every:print_state_every
