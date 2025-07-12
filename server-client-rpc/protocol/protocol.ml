@@ -40,15 +40,12 @@ let%expect_test _ =
   Babel.Caller.print_shapes caller;
   [%expect
     {|
-    ((((name my-both-convert-rpc) (version 3))
-      (Rpc (query 94d3b785da460869144daff623f170df)
-       (response fe8c6d5d25e0c5ee905d672ed01b4a45)))
-     (((name my-both-convert-rpc) (version 2))
-      (Rpc (query 94d3b785da460869144daff623f170df)
-       (response 0743bf7ccae7c4a9d44998836b0cb146)))
-     (((name my-both-convert-rpc) (version 1))
-      (Rpc (query fa9bd13df9b004418afde2225f5c7927)
-       (response 0743bf7ccae7c4a9d44998836b0cb146))))
+    ((((name magic-number-rpc) (version 2))
+      (Rpc (query 854f3441ba97124b9ad37a22891aa3c9)
+       (response 86ba5df747eec837f0b391dd49f33f9e)))
+     (((name magic-number-rpc) (version 1))
+      (Rpc (query 698cfa4093fe5e51523842d37b92aeac)
+       (response 86ba5df747eec837f0b391dd49f33f9e))))
     |}];
   return ()
 
@@ -61,18 +58,15 @@ let%expect_test _ =
   Babel.Callee.print_shapes callee;
   [%expect
     {|
-      (Ok
-       ((my-both-convert-rpc
-         ((1
-           (Rpc (query fa9bd13df9b004418afde2225f5c7927)
-            (response 0743bf7ccae7c4a9d44998836b0cb146)))
-          (2
-           (Rpc (query 94d3b785da460869144daff623f170df)
-            (response 0743bf7ccae7c4a9d44998836b0cb146)))
-          (3
-           (Rpc (query 94d3b785da460869144daff623f170df)
-            (response fe8c6d5d25e0c5ee905d672ed01b4a45)))))))
-      |}];
+    (Ok
+     ((magic-number-rpc
+       ((1
+         (Rpc (query 698cfa4093fe5e51523842d37b92aeac)
+          (response 86ba5df747eec837f0b391dd49f33f9e)))
+        (2
+         (Rpc (query 854f3441ba97124b9ad37a22891aa3c9)
+          (response 86ba5df747eec837f0b391dd49f33f9e)))))))
+    |}];
   return ()
 
 let dispatch = Babel.Caller.Rpc.dispatch_multi caller
