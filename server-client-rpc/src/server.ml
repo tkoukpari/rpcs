@@ -7,16 +7,15 @@ module State = struct
 end
 
 let handle_magic_number_rpc (state : State.t)
-    ({ magic_number } : Protocol.Query.t) =
+    ({ magic_number } : Protocol.Query.Latest.t) =
   state.magic_number <- magic_number;
   return ()
 
-let implementation state =
-  Rpc.Rpc.implement Protocol.rpc (fun () query ->
-      handle_magic_number_rpc state query)
+let implementations state =
+  Protocol.implement (fun () _ query -> handle_magic_number_rpc state query)
 
 let serve state ~port =
-  let implementations = [ implementation state ] in
+  let implementations = implementations state in
   let%bind _ =
     Rpc.Connection.serve
       ~implementations:

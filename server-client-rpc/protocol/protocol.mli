@@ -2,11 +2,30 @@ open! Core
 open! Async
 
 module Query : sig
-  type t = { magic_number : int } [@@deriving bin_io]
+  module V1 : sig
+    type t = int [@@deriving bin_io]
+  end
+
+  module V2 : sig
+    type t = { magic_number : int } [@@deriving bin_io]
+  end
+
+  module Latest = V2
 end
 
 module Response : sig
-  type t = unit [@@deriving bin_io]
+  module V1 : sig
+    type t = unit [@@deriving bin_io]
+  end
+
+  module Latest = V1
 end
 
-val rpc : (Query.t, Response.t) Rpc.Rpc.t
+val dispatch
+  :  Versioned_rpc.Connection_with_menu.t
+  -> Query.Latest.t
+  -> Response.Latest.t Or_error.t Deferred.t
+
+val implement
+  :  ('a -> Rpc.Description.t -> Query.Latest.t -> Response.Latest.t Deferred.t)
+  -> 'a Rpc.Implementation.t list
