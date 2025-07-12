@@ -24,7 +24,7 @@ end
 val dispatch
   :  Versioned_rpc.Connection_with_menu.t
   -> Query.Latest.t
-  -> Response.Latest.t Or_error.t Deferred.t
+  -> Response.Latest.t Deferred.Or_error.t
 
 val implement
   :  ('a -> Rpc.Description.t -> Query.Latest.t -> Response.Latest.t Deferred.t)

@@ -12,7 +12,8 @@ let handle_magic_number_rpc (state : State.t)
   return ()
 
 let implementations state =
-  Protocol.implement (fun () _ query -> handle_magic_number_rpc state query)
+  Protocol.implement (fun () (_ : Rpc.Description.t) query ->
+      handle_magic_number_rpc state query)
 
 let serve state ~port =
   let implementations = implementations state in
