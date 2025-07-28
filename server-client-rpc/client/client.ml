@@ -2,12 +2,12 @@ open! Core
 open! Async
 module Protocol = Protocol_lib.Protocol
 
-let query_server ~magic_number =
+let query_server ~inet_addr ~magic_number =
   let query : Protocol.Query.Latest.t = { magic_number } in
   let%bind connection =
     Rpc.Connection.client
-      (Tcp.Where_to_connect.of_host_and_port
-         (Host_and_port.create ~host:"localhost" ~port:8080))
+      (Tcp.Where_to_connect.of_inet_address
+         (`Inet (inet_addr, 8080)))
     >>| Result.ok_exn
   in
   let%bind connection_with_menu =
