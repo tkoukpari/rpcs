@@ -24,6 +24,9 @@ let serve state ~port =
            ~on_unknown_rpc:`Close_connection)
       ~initial_connection_state:(fun _ _ -> ())
       ~where_to_listen:(Tcp.Where_to_listen.of_port port)
+      ~auth:(fun addr ->
+        addr |> Socket.Address.Inet.sexp_of_t |> print_s ~mach:();
+        true)
       ()
   in
   print_s [%message "RPC served on port" (port : int)];
