@@ -1,5 +1,5 @@
 (executable
  (name main)
- (libraries rpc tcp)
+ (libraries rpc)
  (preprocess
   (pps ppx_jane)))
