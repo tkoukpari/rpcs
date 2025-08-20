@@ -1,0 +1,5 @@
+(library
+ (name tcp)
+ (libraries core async tcp_server tcp_client)
+ (preprocess
+  (pps ppx_jane)))
