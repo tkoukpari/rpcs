@@ -1,0 +1,36 @@
+(executables
+ (names mod)
+ (libraries async core rpc_client)
+ (modes object)
+ (preprocess
+  (pps ppx_jane)))
+
+(rule
+ (targets libocaml.a)
+ (deps mod.exe.o)
+ (action
+  (run ar rcs %{targets} %{deps})))
+
+(rule
+ (targets main.o)
+ (deps main.c)
+ (action
+  (run clang -c -I %{ocaml_where} main.c -o main.o)))
+
+(rule
+ (targets main)
+ (deps main.swift main.o libocaml.a)
+ (action
+  (run
+   swiftc
+   main.swift
+   main.o
+   -o
+   main
+   -L
+   %{ocaml_where}
+   -L
+   .
+   libocaml.a
+   -lcamlrun
+   -lasmrun)))

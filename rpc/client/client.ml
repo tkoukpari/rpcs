@@ -14,5 +14,4 @@ let query_server ~inet_addr ~magic_number =
   in
   let%bind response = Protocol.dispatch connection_with_menu query in
   let%bind () = Rpc.Connection.close connection in
-  print_s [%message (response : unit Or_error.t)];
-  return ()
+  return response
